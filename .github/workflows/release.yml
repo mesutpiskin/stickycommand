@@ -36,19 +36,17 @@ jobs:
         env:
           CP_RUN_INSTALL_APP_DEPS: '0'
 
-      # The bundled node-gyp v3 only supports Python 2.x.
-      # Install a modern node-gyp into a local dir so the path is cross-platform.
-      - name: Install modern node-gyp
+      # electron-builder@7 ships node-gyp@3 which only supports Python 2.
+      # Overwrite it in-place with the latest node-gyp (Python 3 compatible).
+      # --no-save keeps package.json untouched; the .bin/node-gyp symlink
+      # automatically points to the newly installed version.
+      - name: Upgrade bundled node-gyp to Python-3-compatible version
         shell: bash
-        run: |
-          npm install --prefix .node-gyp-new node-gyp@latest
-          echo "NODE_GYP_BIN=$PWD/.node-gyp-new/node_modules/node-gyp/bin/node-gyp.js" >> $GITHUB_ENV
+        run: npm install --no-save node-gyp@latest
 
       - name: Install app native dependencies (node-pty rebuild)
         shell: bash
         run: ./node_modules/.bin/install-app-deps
-        env:
-          npm_config_node_gyp: ${{ env.NODE_GYP_BIN }}
 
       - name: Build webpack bundle
         shell: bash
