@@ -1,0 +1,9 @@
+.github/workflows/release.yml
+  ai_agent 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "c72afdd4837752eeb69d38b3346e311ffd013131",
+  "prompts": {}
+}
