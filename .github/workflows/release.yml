@@ -1,0 +1,75 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            platform_flag: --mac
+          - os: windows-latest
+            platform_flag: --win
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Python (for node-gyp / node-pty)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        shell: bash
+        run: npm install
+        env:
+          CP_RUN_INSTALL_APP_DEPS: '1'
+
+      - name: Build webpack bundle
+        shell: bash
+        run: npm run build
+
+      - name: Package Electron app
+        shell: bash
+        run: ./node_modules/.bin/build ${{ matrix.platform_flag }}
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Upload macOS DMG
+        if: runner.os == 'macOS'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: "StickyCommand Build ${{ github.run_number }}"
+          draft: false
+          prerelease: true
+          files: dist/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows installer
+        if: runner.os == 'Windows'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: "StickyCommand Build ${{ github.run_number }}"
+          draft: false
+          prerelease: true
+          files: dist/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
