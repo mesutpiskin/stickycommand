@@ -1,0 +1,33 @@
+src/features/home/redux/getInitData.js
+  ai_agent 51
+src/features/home/redux/initialState.js
+  ai_agent 18
+src/index.js
+  ai_agent 15-52
+src/containers/App.js
+  ai_agent 20-21
+src/node/main_service.js
+  ai_agent 92-97,113,348
+src/styles/global.less
+  ai_agent 53-162
+src/features/home/SettingsPage.js
+  s_fb6a4ffa16548d::t_73d530c230c5ff 5,9,66-74
+src/features/home/redux/saveSettings.js
+  ai_agent 49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "ef3649c6cb3579092d017c40a4f4a7141e16b9a1",
+  "prompts": {},
+  "sessions": {
+    "s_fb6a4ffa16548d": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "ba5e4ac5-50fd-44fe-b1f6-d767dfe7db19",
+        "model": "unknown"
+      },
+      "human_author": "MESUT PISKIN <mesutpiskin@outlook.com>"
+    }
+  }
+}
