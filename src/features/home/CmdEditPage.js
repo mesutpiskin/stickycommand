@@ -64,6 +64,13 @@ export class CmdEditPage extends Component {
                 <Input size="default" />
               )}
             </FormItem>
+            <FormItem label={this.getFormItemLabel('Group', 'Optional. Commands in the same group are displayed together in the command list.')}>
+              {getFieldDecorator('group', {
+                initialValue: initialData.group || '',
+              })(
+                <Input size="default" placeholder="e.g. Backend, Frontend, Database" />
+              )}
+            </FormItem>
             <FormItem label={this.getFormItemLabel('Command', 'The command to run, e.g., "npm start"')}>
               {getFieldDecorator('cmd', {
                 initialValue: initialData.cmd || '',

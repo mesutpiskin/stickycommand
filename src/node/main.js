@@ -14,21 +14,61 @@ let willQuitApp = false;
 const isDev = process.env.NODE_ENV === 'development';
 const isWin = process.platform === 'win32';
 
+const DEV_SERVER_URL = 'http://localhost:6076/';
+
+function getBundledIndexUrl() {
+  // Prefer the build output under app/, then fallback to src-level index.
+  const bundledIndexPath = path.join(app.getAppPath(), 'app/index.html');
+  return `file://${bundledIndexPath}`;
+}
+
+function loadRendererUrl(winRef) {
+  if (isDev) {
+    winRef.loadURL(DEV_SERVER_URL);
+    return;
+  }
+  winRef.loadURL(`file://${path.join(__dirname, '../index.html')}`);
+}
+
 function createWindow() {
   // Create the browser window.
   if (isDev) {
-    win = new BrowserWindow({ width: 900, height: 600 });
+    win = new BrowserWindow({
+      width: 900,
+      height: 600,
+      webPreferences: {
+        contextIsolation: false,
+        enableRemoteModule: true,
+        nodeIntegration: true,
+      },
+    });
   } else {
-    win = new BrowserWindow({ width: 900, height: 600 });
+    win = new BrowserWindow({
+      width: 900,
+      height: 600,
+      webPreferences: {
+        contextIsolation: false,
+        enableRemoteModule: true,
+        nodeIntegration: true,
+      },
+    });
   }
 
   global.CP_WIN = win;
 
   // and load the index.html of the app.
+  loadRendererUrl(win);
+
+  // In dev mode, fallback to built index if webpack dev server is not running.
   if (isDev) {
-    win.loadURL('http://localhost:6076/');
-  } else {
-    win.loadURL(`file://${path.join(__dirname, '../index.html')}`);
+    win.webContents.on('did-fail-load', (_event, code, _desc, validatedURL) => {
+      if (validatedURL !== DEV_SERVER_URL) return;
+      // -3 is aborted navigation and can happen during redirects/reloads.
+      if (code === -3) return;
+      const fallbackUrl = getBundledIndexUrl();
+      console.log(`Dev server unavailable, falling back to ${fallbackUrl}`);
+      win.loadURL(fallbackUrl);
+    });
   }
 
   // Open the DevTools.

@@ -63,12 +63,46 @@ class CmdList extends PureComponent {
       cmds = this.state.movingCmdIds.map(id => groups[id][0]);
     }
 
-    return (
-      <ul className="home-cmd-list" style={{ width: `${this.props.colWidth}px` }}>
-        {cmds.map((item, index) => (
+    if (this.props.editing) {
+      return (
+        <ul className="home-cmd-list" style={{ width: `${this.props.colWidth}px` }}>
+          {cmds.map((item, index) => (
+            <CmdListItem
+              key={item.id}
+              index={index}
+              cmd={item}
+              selected={item.id === this.props.selectedCmd}
+              editing={this.props.editing}
+              runCmd={this.props.runCmd}
+              stopCmd={this.props.stopCmd}
+              deleteCmd={this.props.deleteCmd}
+              clearOutput={this.props.clearOutput}
+              moveCmdItem={this.moveCmdItem}
+              dropCmdItem={this.dropCmdItem}
+              selectCmd={this.props.selectCmd}
+            />
+          ))}
+        </ul>
+      );
+    }
+
+    const groups = _.groupBy(cmds, c => (c.group || '').trim() || 'Ungrouped');
+    const groupNames = Object.keys(groups).sort((a, b) => a.localeCompare(b));
+
+    const listItems = [];
+    groupNames.forEach(groupName => {
+      listItems.push(
+        <li className="home-cmd-group-header" key={`group_${groupName}`}>
+          <span className="group-name">{groupName}</span>
+          <span className="group-count">{groups[groupName].length}</span>
+        </li>
+      );
+
+      groups[groupName].forEach(item => {
+        listItems.push(
           <CmdListItem
             key={item.id}
-            index={index}
+            index={cmds.findIndex(c => c.id === item.id)}
             cmd={item}
             selected={item.id === this.props.selectedCmd}
             editing={this.props.editing}
@@ -80,9 +114,11 @@ class CmdList extends PureComponent {
             dropCmdItem={this.dropCmdItem}
             selectCmd={this.props.selectCmd}
           />
-        ))}
-      </ul>
-    );
+        );
+      });
+    });
+
+    return <ul className="home-cmd-list" style={{ width: `${this.props.colWidth}px` }}>{listItems}</ul>;
   }
 }
 

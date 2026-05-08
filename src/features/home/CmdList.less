@@ -2,4 +2,34 @@
 
 .home-cmd-list {
   background-color: #222;
+
+  .home-cmd-group-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    background: #1a1a1a;
+
+    .group-name {
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #9aa0a6;
+    }
+
+    .group-count {
+      min-width: 20px;
+      padding: 0 6px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: #cfd8dc;
+      background: #30363d;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const fs = require('fs');
 const _ = require('lodash');
 const childProcess = require('child_process');
 const { app, ipcMain } = require('electron');
@@ -50,7 +51,11 @@ function stopCmd(cmd) {
     if (isWin) {
       exec('taskkill /pid ' + cmd.process.pid + ' /T /F');
     } else {
-      cmd.process.destroy();
+      if (typeof cmd.process.destroy === 'function') {
+        cmd.process.destroy();
+      } else if (typeof cmd.process.kill === 'function') {
+        cmd.process.kill('SIGTERM');
+      }
     }
   } catch (e) {
     console.log('failed to kill the process: ', e);
@@ -83,6 +88,16 @@ function getEnvPath() {
 function getOutputRowsLimit() {
   return config.get('outputRowsLimit') || 100;
 }
+
+function resolveCmdCwd(rawCwd) {
+  const fallback = process.env.HOME || process.cwd();
+  if (!rawCwd) return fallback;
+
+  const normalized = rawCwd.replace(/^~(?=$|\/)/, fallback);
+  const resolved = path.resolve(normalized);
+  if (fs.existsSync(resolved)) return resolved;
+  return fallback;
+}
 /* ==================== Get Init Data ============================== */
 ipcMain.on('GET_INIT_DATA', (evt) => {
   evt.sender.send('SET_INIT_DATA', {
@@ -90,7 +105,7 @@ ipcMain.on('GET_INIT_DATA', (evt) => {
     envPath: config.get('envPath'),
     outputRowsLimit: getOutputRowsLimit(),
     isWin,
-    cmds: cmds.map(c => Object.assign(_.pick(c, ['id', 'name', 'cmd', 'cwd', 'sudo', 'outputs', 'url', 'finishPrompt']), { status: c.process ? 'running' : 'stopped' })),
+    cmds: cmds.map(c => Object.assign(_.pick(c, ['id', 'name', 'group', 'cmd', 'cwd', 'sudo', 'outputs', 'url', 'finishPrompt']), { status: c.process ? 'running' : 'stopped' })),
   });
 });
 
@@ -101,6 +116,7 @@ ipcMain.on('SAVE_CMD', (evt, data, cmdId) => {
   const cmd = { id: cmdId || guid() };
   Object.assign(cmd, {
     name: data.name,
+    group: (data.group || '').trim() || null,
     cmd: data.cmd,
     sudo: data.sudo,
     finishPrompt: data.finishPrompt,
@@ -200,7 +216,11 @@ ipcMain.on('RUN_CMD', (evt, cmdId, password) => { // eslint-disable-line
       }
 
       if (cmd.sudo && /password/i.test(out)) {
-        term.write(`${password}\r`);
+        if (term && typeof term.write === 'function') {
+          term.write(`${password}\r`);
+        } else if (term && term.stdin && typeof term.stdin.write === 'function') {
+          term.stdin.write(`${password}\n`);
+        }
         return;
       }
     }
@@ -246,11 +266,12 @@ ipcMain.on('RUN_CMD', (evt, cmdId, password) => { // eslint-disable-line
   arr = arr.map(m => m.replace(/^['"]|['"]/g, ''));
 
   const envPath = getEnvPath();
+  const cmdCwd = resolveCmdCwd(cmd.cwd);
   if (isWin) {
     // use cmd.exe to execute command
     arr = ['/s', '/c'].concat(arr);
     const child = spawn('cmd', arr, {
-      cwd: cmd.cwd || process.env.HOME,
+      cwd: cmdCwd,
       stdio: 'pipe',
       env: Object.assign({}, process.env, { Path: `${process.env.Path}${envPath}` }),
     });
@@ -261,26 +282,40 @@ ipcMain.on('RUN_CMD', (evt, cmdId, password) => { // eslint-disable-line
     child.on('exit', onExit);
     child.on('error', () => onExit(99));
   } else {
-    // use ptyw.js to execute command
+    // Use child_process with shell-style execution to avoid native PTY spawn issues.
     let target;
+    let childArgs;
+    const configuredShell = process.env.SHELL;
+    const shell = configuredShell && fs.existsSync(configuredShell) ? configuredShell : '/bin/bash';
     if (cmd.sudo) {
-      target = 'sudo';
+      target = fs.existsSync('/usr/bin/sudo') ? '/usr/bin/sudo' : 'sudo';
+      childArgs = ['-S', shell, '-lc', cmd.cmd];
     } else {
-      target = arr.shift();
+      target = shell;
+      childArgs = ['-lc', cmd.cmd];
     }
-    // const ptyw = require('ptyw.js');
 
-    const term = pty.spawn(target, arr, {
-      name: 'xterm-color',
-      cols: 80,
-      rows: 30,
-      cwd: cmd.cwd || process.env.HOME,
-      detached: true,
-      env: Object.assign({}, process.env, { PATH: `${process.env.PATH}${envPath}` }),
-    });
-    cmd.process = term;
-    term.on('data', chunk => onData(chunk, term));
-    term.on('exit', onExit);
+    try {
+      const child = spawn(target, childArgs, {
+        cwd: cmdCwd,
+        stdio: 'pipe',
+        env: Object.assign({}, process.env, { PATH: `${process.env.PATH}${envPath}` }),
+      });
+      cmd.process = child;
+
+      child.stdout.on('data', chunk => onData(chunk, child));
+      child.stderr.on('data', chunk => onData(chunk, child));
+      child.on('close', onExit);
+      child.on('error', () => onExit(127));
+    } catch (e) {
+      cmd.outputs.push({
+        id: `${cmdId}_${lineId++}`,
+        text: `<span style="color: red">Failed to start command: ${(e && e.message) || e} (cwd: ${cmdCwd})</span>`,
+      });
+      evt.sender.send('CMD_OUTPUT', cmdId, [].concat(cmd.outputs));
+      onExit(127);
+      return;
+    }
   }
 
   sendStat({ type: 'run_cmd', cmd_count: cmds.length });

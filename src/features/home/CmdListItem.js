@@ -291,6 +291,7 @@ class CmdListItem extends PureComponent {
             title={`${cmd.sudo ? 'sudo ' : ''}${cmd.cmd}`}
             className="cmd-name"
           >
+            {!!(cmd.group && cmd.group.trim()) && <span className="group-icon">{cmd.group.trim()}</span>}
             {cmd.sudo && <span className="sudo-icon">S</span>}
             {cmd.name || cmd.cmd || 'No name.'}
           </span>

@@ -5,7 +5,7 @@
   "description": "GUI for running terminal commands.",
   "main": "src/node/main.js",
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "node -e \"if (process.env.CP_RUN_INSTALL_APP_DEPS === '1') { require('child_process').execSync('install-app-deps', { stdio: 'inherit' }); } else { console.log('Skipping install-app-deps (set CP_RUN_INSTALL_APP_DEPS=1 to enable).'); }\"",
     "electron": "cross-env NODE_ENV=development electron ./",
     "electron:dist": "electron ./app",
     "pkg:osx": "electron-packager ./build",
@@ -107,7 +107,7 @@
     "chai": "^3.5.0",
     "cross-env": "^3.1.3",
     "css-loader": "^0.25.0",
-    "electron": "^1.4.3",
+    "electron": "^13.6.9",
     "electron-builder": "^7.13.1",
     "electron-config": "^0.2.1",
     "electron-packager": "^8.1.0",
@@ -162,7 +162,7 @@
   },
   "dependencies": {
     "node-notifier": "^4.6.1",
-    "node-pty": "^0.7.4",
+    "node-pty": "^1.0.0",
     "node-version-compare": "^1.0.1",
     "request": "^2.75.0",
     "shallowequal": "^1.0.2"
