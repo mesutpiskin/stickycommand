@@ -29,16 +29,26 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Python (for node-gyp / node-pty)
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+      # Install root dependencies WITHOUT triggering postinstall's install-app-deps
+      - name: Install root dependencies
         shell: bash
         run: npm install
         env:
-          CP_RUN_INSTALL_APP_DEPS: '1'
+          CP_RUN_INSTALL_APP_DEPS: '0'
+
+      # The bundled node-gyp v3 only supports Python 2.x.
+      # Install a modern node-gyp into a local dir so the path is cross-platform.
+      - name: Install modern node-gyp
+        shell: bash
+        run: |
+          npm install --prefix .node-gyp-new node-gyp@latest
+          echo "NODE_GYP_BIN=$PWD/.node-gyp-new/node_modules/node-gyp/bin/node-gyp.js" >> $GITHUB_ENV
+
+      - name: Install app native dependencies (node-pty rebuild)
+        shell: bash
+        run: ./node_modules/.bin/install-app-deps
+        env:
+          npm_config_node_gyp: ${{ env.NODE_GYP_BIN }}
 
       - name: Build webpack bundle
         shell: bash
