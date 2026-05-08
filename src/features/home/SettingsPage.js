@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { hashHistory, Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, Form, Icon, Input, InputNumber, message, Tooltip } from 'antd';
+import { Button, Form, Icon, Input, InputNumber, message, Select, Tooltip } from 'antd';
 import * as actions from './redux/actions';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 export class SettingsPage extends Component {
   static propTypes = {
@@ -60,6 +61,17 @@ export class SettingsPage extends Component {
                 initialValue: this.props.home.envPath || '',
               })(
                 <Input size="default" />
+              )}
+            </FormItem>
+            <FormItem label={this.getFormItemLabel('Theme', 'Application color mode preference.')}>
+              {getFieldDecorator('theme', {
+                initialValue: this.props.home.theme || 'system',
+              })(
+                <Select size="default">
+                  <Option value="dark">Dark</Option>
+                  <Option value="light">Light</Option>
+                  <Option value="system">System</Option>
+                </Select>
               )}
             </FormItem>
             <FormItem className="buttons">

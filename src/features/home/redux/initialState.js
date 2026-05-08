@@ -15,6 +15,7 @@ const initialState = {
   clearOutputError: null,
   colWidth: 300,
   selectedCmd: null,
+  theme: 'system',
 };
 
 export default initialState;

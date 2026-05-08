@@ -46,6 +46,7 @@ export function reducer(state, action) {
         ...state,
         envPath: action.data.envPath,
         outputRowsLimit: parseInt(action.data.outputRowsLimit, 10),
+        theme: action.data.theme || 'system',
         saveSettingsPending: false,
         saveSettingsError: null,
       };

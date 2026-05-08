@@ -50,3 +50,113 @@ h6 {
     border-radius: 6px;
     background-color: #555;
 }
+
+body.theme-dark {
+  background: #1e1e1e;
+  color: #ddd;
+}
+
+body.theme-light {
+  background: #f4f6f9;
+  color: #222;
+
+  .home-status-page {
+    .header {
+      background: linear-gradient(180deg, #ffffff 0%, #f2f5f8 100%);
+      border-bottom: 1px solid #d9e0e8;
+
+      .toolbar-btn {
+        border-color: #cfd8e3;
+        background: #ffffff;
+        color: #2b3442;
+
+        &:hover,
+        &:focus {
+          border-color: #9fb0c7;
+          background: #f7faff;
+          color: #182233;
+        }
+      }
+
+      .toolbar-btn-primary {
+        border-color: #1677ff;
+        background: #1677ff;
+        color: #fff;
+      }
+    }
+
+    .page-content {
+      .home-cmd-list {
+        background: #f8fafc;
+        border-right: 1px solid #d9e0e8;
+      }
+
+      .footer {
+        background: #eef3f8;
+        color: #4f5d73;
+        border-right: 1px solid #d9e0e8;
+      }
+
+      .output-container {
+        background: #ffffff;
+        .output-list {
+          color: #156d2f;
+        }
+      }
+    }
+  }
+
+  .home-cmd-list-item {
+    border-bottom-color: #d9e0e8;
+
+    &:hover {
+      background-color: #f0f5fb;
+    }
+
+    .display-name {
+      color: #2f3b4b;
+    }
+
+    .output {
+      color: #5f6f82;
+    }
+
+    &.selected {
+      background-color: #eaf3ff;
+    }
+  }
+
+  .home-cmd-list .home-cmd-group-header {
+    background: #e9eff6;
+    border-top-color: #d9e0e8;
+    border-bottom-color: #d9e0e8;
+    .group-name {
+      color: #46566c;
+    }
+    .group-count {
+      background: #d4deea;
+      color: #2b3b51;
+    }
+  }
+
+  .status-tools-dropdown {
+    .ant-dropdown-menu {
+      background: #ffffff;
+      border-color: #d6dde8;
+      box-shadow: 0 10px 22px rgba(32, 46, 68, 0.16);
+    }
+
+    .ant-dropdown-menu-item,
+    .ant-dropdown-menu-submenu-title {
+      color: #2d3a4d;
+      &:hover {
+        background: #eef4fd;
+        color: #1d2b3d;
+      }
+    }
+
+    .ant-dropdown-menu-item-divider {
+      background: #e1e8f0;
+    }
+  }
+}

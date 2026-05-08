@@ -89,6 +89,12 @@ function getOutputRowsLimit() {
   return config.get('outputRowsLimit') || 100;
 }
 
+function getTheme() {
+  const theme = config.get('theme');
+  if (theme === 'dark' || theme === 'light' || theme === 'system') return theme;
+  return 'system';
+}
+
 function resolveCmdCwd(rawCwd) {
   const fallback = process.env.HOME || process.cwd();
   if (!rawCwd) return fallback;
@@ -104,6 +110,7 @@ ipcMain.on('GET_INIT_DATA', (evt) => {
     appVersion: app.getVersion(),
     envPath: config.get('envPath'),
     outputRowsLimit: getOutputRowsLimit(),
+    theme: getTheme(),
     isWin,
     cmds: cmds.map(c => Object.assign(_.pick(c, ['id', 'name', 'group', 'cmd', 'cwd', 'sudo', 'outputs', 'url', 'finishPrompt']), { status: c.process ? 'running' : 'stopped' })),
   });
@@ -338,6 +345,7 @@ ipcMain.on('SAVE_SETTINGS', (evt, data) => {
   console.log('save settings');
   config.set('envPath', data.envPath);
   config.set('outputRowsLimit', parseInt(data.outputRowsLimit, 10) || 100);
+  config.set('theme', (data.theme === 'dark' || data.theme === 'light' || data.theme === 'system') ? data.theme : 'system');
   evt.sender.send('SAVE_SETTINGS_SUCCESS');
 
   sendStat({ type: 'save_settings', cmd_count: cmds.length });

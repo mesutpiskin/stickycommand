@@ -10,49 +10,115 @@
     text-align: center;
   }
   .header {
-    background-color: #333;
-    .anticon-folder {
-      margin-left: 15px;
-      font-size: 16px;
-    }
-    .anticon-info-circle-o, .anticon-setting {
-      float: right;
-      margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: linear-gradient(180deg, #2f3238 0%, #25282d 100%);
+    border-bottom: 1px solid #1a1d21;
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .anticon-swap {
-      margin-left: 15px;
+    .toolbar-btn {
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid #3b4048;
+      border-radius: 6px;
+      background: #2b2f36;
+      color: #d8dee9;
+      font-size: 12px;
+
+      .anticon {
+        color: inherit;
+        font-size: 14px;
+      }
+
+      &:hover,
+      &:focus {
+        border-color: #5a6372;
+        color: #ffffff;
+        background: #323845;
+      }
+
+      &.icon-only {
+        width: 28px;
+        min-width: 28px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
-    .anticon-swap {
-      transform: rotate(-90deg);
-    }
+    .toolbar-btn-primary {
+      border-color: #1f7ae0;
+      background: #1f7ae0;
+      color: #fff;
 
-    .anticon-info-circle-o {
-      transform: translateY(1px);
-      font-size: 18px;
+      .anticon {
+        color: #fff;
+      }
+
+      &:hover,
+      &:focus {
+        border-color: #3189ec;
+        background: #3189ec;
+        color: #fff;
+      }
     }
   }
 
-  ul.home-cmd-list {
-    width: 100%;
+  .status-tools-dropdown {
+    .ant-dropdown-menu {
+      min-width: 220px;
+      border-radius: 8px;
+      border: 1px solid #2f333a;
+      background: #1f2228;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+      padding: 6px;
+    }
+
+    .ant-dropdown-menu-item,
+    .ant-dropdown-menu-submenu-title {
+      border-radius: 6px;
+      color: #d8dee9;
+      font-size: 12px;
+      line-height: 30px;
+      margin: 2px 0;
+      padding: 0 10px;
+
+      &:hover {
+        background: #2d3440;
+        color: #fff;
+      }
+    }
+
+    .ant-dropdown-menu-item-divider {
+      background: #343a44;
+      margin: 6px 0;
+    }
+
+    .ant-dropdown-menu-item-selected {
+      background: #2d3440;
+    }
   }
 
-  ul.home-cmd-list li {
-    
-  }
-
-  .home-welcome {
-    
+  .tools-menu {
+    background: transparent;
+    border: none;
   }
 
   .page-content {
     position: absolute;
-    top: 41px;
+    top: 45px;
     left: 0;
     right: 0;
     bottom: 0;
-    
 
     .home-cmd-list {
       position: absolute;
@@ -134,7 +200,78 @@
       color: #28da36;
     }
   }
+
   .ant-popover-arrow {
     // display: none;
+  }
+}
+
+body.theme-light {
+  .home-status-page {
+    .header {
+      background: linear-gradient(180deg, #ffffff 0%, #f2f5f8 100%);
+      border-bottom: 1px solid #d9e0e8;
+
+      .toolbar-btn {
+        border-color: #cfd8e3;
+        background: #ffffff;
+        color: #2b3442;
+
+        &:hover,
+        &:focus {
+          border-color: #9fb0c7;
+          background: #f7faff;
+          color: #182233;
+        }
+      }
+
+      .toolbar-btn-primary {
+        border-color: #1677ff;
+        background: #1677ff;
+        color: #fff;
+
+        .anticon {
+          color: #fff;
+        }
+      }
+    }
+
+    .page-content {
+      .home-cmd-list {
+        background: #f8fafc;
+        border-right: 1px solid #d9e0e8;
+      }
+
+      .footer {
+        background: #eef3f8;
+        color: #4f5d73;
+        border-right: 1px solid #d9e0e8;
+      }
+
+      .output-container {
+        background: #ffffff;
+        .output-list {
+          color: #156d2f;
+        }
+      }
+    }
+  }
+}
+
+body.theme-dark {
+  .home-status-page {
+    .header {
+      background: linear-gradient(180deg, #2f3238 0%, #25282d 100%);
+      border-bottom: 1px solid #1a1d21;
+    }
+
+    .page-content {
+      .home-cmd-list {
+        background: #222;
+      }
+      .output-container {
+        background: #1e1e1e;
+      }
+    }
   }
 }

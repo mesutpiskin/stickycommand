@@ -17,8 +17,8 @@ export class App extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.home.appVersion && document.body.className) {
-      document.body.className = '';
+    if (this.props.home.appVersion && document.body.classList.contains('loading')) {
+      document.body.classList.remove('loading');
     }
   }
 
