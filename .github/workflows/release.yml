@@ -36,17 +36,19 @@ jobs:
         env:
           CP_RUN_INSTALL_APP_DEPS: '0'
 
-      # electron-builder@7 ships node-gyp@3 which only supports Python 2.
-      # Overwrite it in-place with the latest node-gyp (Python 3 compatible).
-      # --no-save keeps package.json untouched; the .bin/node-gyp symlink
-      # automatically points to the newly installed version.
-      - name: Upgrade bundled node-gyp to Python-3-compatible version
+      # Install app/node_modules separately (skips electron-builder's install-app-deps
+      # which downloads Electron headers from the dead atom.io mirror).
+      - name: Install app production dependencies
         shell: bash
-        run: npm install --no-save node-gyp@latest
+        working-directory: app
+        run: npm install --production
 
-      - name: Install app native dependencies (node-pty rebuild)
+      # Rebuild native modules (node-pty) using @electron/rebuild which fetches
+      # headers from the live electronjs.org mirror instead of atom.io.
+      - name: Rebuild native modules for Electron
         shell: bash
-        run: ./node_modules/.bin/install-app-deps
+        working-directory: app
+        run: npx --yes @electron/rebuild@^3 --version 13.6.9 --dist-url https://electronjs.org/headers --force
 
       - name: Build webpack bundle
         shell: bash
