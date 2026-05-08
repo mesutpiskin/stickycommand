@@ -252,7 +252,7 @@ ipcMain.on('RUN_CMD', (evt, cmdId, password) => { // eslint-disable-line
     delete cmd._manualStop;
     if (!cmd._manualStop && cmd.finishPrompt) {
       notifier.notify({ // eslint-disable-line
-        title: 'Command Pad',
+        title: 'StickyCommand',
         message: `Command ${code > 0 ? 'failed' : 'finished'}: ${cmd.name} .`,
         icon: code > 0 ? iconErrorPath : iconSuccessPath,
         // icon: path.join(__dirname, '../images/logo.png'),

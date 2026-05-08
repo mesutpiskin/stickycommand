@@ -1,11 +1,11 @@
 {
-  "name": "CommandPad",
-  "productName": "Command Pad",
+  "name": "stickycommand",
+  "productName": "StickyCommand",
   "version": "0.1.2",
   "license": "MIT",
-  "description": "GUI for managing command line programs.",
-  "homepage": "https://github.com/supnate/command-pad",
-  "author": "Nate Wang <supnate@gmail.com>",
+  "description": "Desktop command launcher and monitor for local developer workflows.",
+  "homepage": "https://github.com/mesutpiskin/stickycommand",
+  "author": "Mesut Piskin <mesutpiskin@outlook.com>",
   "private": true,
   "main": "./node/main.js",
   "dependencies": {

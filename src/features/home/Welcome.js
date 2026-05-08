@@ -7,10 +7,10 @@ export default class Welcome extends PureComponent {
     return (
       <div className="home-welcome">
         <h2>
-          Welcome to Command Pad!
+          Welcome to StickyCommand!
         </h2>
         <p>
-          Command Pad is a central place for managing your command line programs.
+          StickyCommand is a central place for managing your command line programs.
         </p>
         <p>
           It's motivated by the need for running multiple dev servers for modern web development. Such as: Webpack dev-server, Storybook dev-server, Gitbook dev-server, API proxy server etc.
@@ -19,7 +19,7 @@ export default class Welcome extends PureComponent {
           It also could be used for other scenarios, such as running tests, launching Java apps, etc.
         </p>
         <p>
-          Command Pad is an open source app. Any question or advice please visit the <a href="https://github.com/supnate/command-pad">project page</a> on GitHub.
+          StickyCommand is an open source app. Any question or advice please visit the <a href="https://github.com/mesutpiskin/stickycommand">project page</a> on GitHub.
         </p>
         <p>Now click below button to add your first command!</p>
         <p>

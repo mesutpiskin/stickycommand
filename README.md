@@ -1,85 +1,70 @@
-
 <img src="/images/logo.png?raw=true" width="128">
 
-# Command Pad
+# StickyCommand
 
-Command Pad is a handy GUI application for running your command line tasks.
-It helps to start and stop a command line tools easily and you can also monitor the output.
+StickyCommand is a desktop command launcher and output monitor for local development workflows.
+It helps you keep recurring terminal commands in one place, run them with one click, and inspect output quickly.
 
-You can learn more about it by the review from @softpedia: http://www.softpedia.com/get/Programming/Other-Programming-Files/Command-Pad.shtml
+Repository: https://github.com/mesutpiskin/stickycommand
 
-<img src="/images/command-pad.gif?raw=true" width="600">
+## Why This Fork Exists
 
-# Downloads
-Version 0.1.2 Released at 2018-3-6:
-* MacOS: [Command Pad-0.1.2.dmg](https://github.com/supnate/command-pad/releases/download/v0.1.2/Command.Pad-0.1.2.dmg)
-* Windows: coming soon...
+The original project became inactive and some links/infrastructure were no longer reachable.
+This fork is rebranded as StickyCommand and is focused on keeping the app usable in modern environments.
 
+## Current Status
 
-Version 0.1.1 Released at 2016-10-26:
-* MacOS: [Command Pad-0.1.1.dmg](https://github.com/supnate/command-pad/releases/download/v0.1.1/Command.Pad-0.1.1.dmg)
-* Windows: [Command.Pad.Setup.0.1.1.zip](https://github.com/supnate/command-pad/releases/download/v0.1.1/Command.Pad.Setup.0.1.1.zip)
+- Rebranded from Command Pad to StickyCommand
+- Dead upstream links replaced
+- Command execution path stabilized for modern macOS/Node setups
+- Command grouping support added
 
-# Motivation
-For the modern web development, it usually needs several terminals opened for just running various dev servers, for example below is my terminal typically looks like:
+## Features
 
-<img src="/images/terminal.png?raw=true" width="600">
+1. Start/stop saved commands from a GUI.
+2. Track recent command output with colorized logs.
+3. Optional finish notifications.
+4. Optional command URL shortcut (e.g. local dev server links).
+5. Group commands in the list for better organization.
 
-Managing them is frustrating. It's not intuitive which service you need is running and which has stopped unexpectly. But the useful terminals which need interactions often collapse into the dropdown menu.
+## Run Locally
 
-So I created this little tool to manage all of my frequently used command line programs. It looks like:
+1. Install dependencies:
 
-<img src="/images/pic1.png?raw=true" width="360">
+```bash
+npm install
+```
 
-It helps to manage command line tools in one central place with intuitive UI.
+2. Build app assets:
 
-# Use cases
-Besides running dev servers, Command Pad is also useful for:
+```bash
+npm run build
+```
 
-1. Running building/testing scripts. You can be prompted when the script is finished.
-2. Launch command line GUI apps like JMeter.
-3. ...
+3. Start dev server:
 
-# More screenshots
-Intuitive UI to add a command:
+```bash
+npm start
+```
 
-<img src="/images/pic2.png?raw=true" width="360">
+4. Launch desktop app:
 
-Colorful output:
+```bash
+npm run electron
+```
 
-<img src="/images/pic3.png?raw=true" width="360">
+Note: If the dev server is not running, the app falls back to bundled output when available.
 
-Alert you when some command is finished:
+## Packaging
 
-<img src="/images/pic4.png?raw=true" width="360">
+This repository still uses a legacy packaging setup. If you plan to produce distributables,
+expect additional modernization work for the builder pipeline.
 
-# Features
-1. Monitor the output and keep the color.
-2. Prompt you when some script succeeds or fails.
-3. Support `sudo` on MacOS.
-4. Open URL directly from the UI.
-5. ...
+## Privacy
 
-# FAQ:
-### Why is this "little tool" so large?
-Command Pad is built with [Electron](http://electron.atom.io/). The minimal dmg size is about 35MB.
-### Why can't I interact with the command?
-Command Pad is not to replace your terminal. It's just used for running command line services. So you can't type in the output window.
-### How to delete a command?
-Click `sort` icon on the header:
+The app includes anonymous usage-stat sending logic in src/node/send_stat.js.
+If you do not want this behavior, remove or disable that module before building your own distribution.
 
-<img src="/images/sort-icon.png?raw=true" width="362">
+## License
 
-# Contribute
-To run a local dist build:
-1. Download certificate from your Apple development console.
-2. Use electron-builder to build
-3. Set package.json "build.mac.identity" to you own.
-4. Run `npm run dist`.
-5. Check the result under dist/mac for app and dmg.
-
-# Privacy
-Command Pad will not upload any confidential information of you. But to continously improve the user experience it will only send very few usage data like app openning, command count, platform information etc to the analytics server anonymously. You can check the logic from the source code at `src/node/send_stat.js`. If you don't want this, you can build your own version from source code after deleting the stat logic.
-
-# License
 MIT

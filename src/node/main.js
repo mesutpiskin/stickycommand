@@ -97,16 +97,16 @@ function createWindow() {
     tray.on('click', () => {
       win.show();
     });
-    // tray.setToolTip('Command Pad')
+    // tray.setToolTip('StickyCommand')
   }
   // appIcon.setPressedImage(`${__dirname}/../../build/trayicon-highlight.png`);
 
   if (!isDev && !isWin) {
     var template = [
       {
-        label: 'Command Pad',
+        label: 'StickyCommand',
         submenu: [
-          { label: 'About Command Pad', selector: 'orderFrontStandardAboutPanel:' },
+          { label: 'About StickyCommand', selector: 'orderFrontStandardAboutPanel:' },
           { type: 'separator' },
           {
             label: 'Quit',

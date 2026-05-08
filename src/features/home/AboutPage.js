@@ -21,25 +21,21 @@ export class AboutPage extends Component {
         <div className="page-content">
           <div className="title-wrapper">
             <img src={require('../../images/logo.png')} alt="logo" className="logo" />
-            <h2>Command Pad</h2>
+            <h2>StickyCommand</h2>
             <div>Version {this.props.home.appVersion}</div>
           </div>
-          <p>Command Pad is a central place for managing your command line programs.</p>
+          <p>StickyCommand is a central place for managing your command line programs.</p>
           <p>Any questions or advice? Please visit:</p>
-          <ALink url="https://github.com/supnate/command-pad">https://github.com/supnate/command-pad</ALink>
+          <ALink url="https://github.com/mesutpiskin/stickycommand">https://github.com/mesutpiskin/stickycommand</ALink>
           <h3>Powered by</h3>
           <p className="powered-by">
             <ALink url="https://github.com/electron/electron">
               <img alt="electron logo" src={require('../../images/electron_logo.png')} />
             </ALink>
-            <br />
-            <ALink url="https://github.com/supnate/rekit">
-              <img alt="rekit logo" className="rekit-logo" src={require('../../images/rekit_logo.png')} />
-            </ALink>
           </p>
           <h3>Creator</h3>
           <p>
-            Nate Wang (<ALink url="https://twitter.com/@webows">@webows</ALink>)
+            Mesut Piskin (<ALink url="https://github.com/mesutpiskin">@mesutpiskin</ALink>)
           </p>
         </div>
       </div>

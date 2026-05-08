@@ -1,8 +1,8 @@
 {
-  "name": "command-pad",
-  "productName": "Command Pad",
+  "name": "stickycommand",
+  "productName": "StickyCommand",
   "version": "0.1.2",
-  "description": "GUI for running terminal commands.",
+  "description": "Desktop command launcher and output monitor for development workflows.",
   "main": "src/node/main.js",
   "scripts": {
     "postinstall": "node -e \"if (process.env.CP_RUN_INSTALL_APP_DEPS === '1') { require('child_process').execSync('install-app-deps', { stdio: 'inherit' }); } else { console.log('Skipping install-app-deps (set CP_RUN_INSTALL_APP_DEPS=1 to enable).'); }\"",
@@ -19,7 +19,7 @@
   },
   "build": {
     "compression": "normal",
-    "appId": "com.webows.commandpad",
+    "appId": "com.mesutpiskin.stickycommand",
     "dmg": {
       "icon": "build/icon.icns"
     },
@@ -30,7 +30,7 @@
     },
     "win": {
       "target": "nsis",
-      "iconUrl": "https://github.com/supnate/command-pad"
+      "iconUrl": "https://github.com/mesutpiskin/stickycommand"
     }
   },
   "babel": {
