@@ -18,6 +18,23 @@
 
 ---
 
+# Installation
+
+## macOS (Homebrew)
+
+```bash
+brew tap mesutpiskin/stickycommand
+brew install stickycommand
+```
+
+## Manual Downloads
+
+Visit the [Releases page](https://github.com/mesutpiskin/stickycommand/releases) to download the latest:
+- **macOS**: `StickyCommand-*.dmg`
+- **Windows**: `StickyCommand-*.exe` (NSIS installer)
+
+---
+
 # Overview
 
 StickyCommand is a modernized continuation of the original Command Pad project.
