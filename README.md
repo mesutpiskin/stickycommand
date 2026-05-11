@@ -34,7 +34,7 @@ Original project:
 
 ScreenShot:
 
-  <img src="/images/ss.png?raw=true" width="256" alt="StickyCommand SS">
+  <img src="/images/ss.png?raw=true" width="512" alt="StickyCommand SS">
 
 ---
 
