@@ -28,6 +28,10 @@ Repository:
 Original project:  
 [Command Pad (Original Repository)](https://github.com/supnate/command-pad?utm_source=chatgpt.com)
 
+Screen Shot:
+
+  <img src="/images/ss.png?raw=true" width="256" alt="StickyCommand SS">
+
 ---
 
 # Why This Fork Exists
