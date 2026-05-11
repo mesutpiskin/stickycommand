@@ -6,7 +6,6 @@ const childProcess = require('child_process');
 const { app, ipcMain } = require('electron');
 const Config = require('electron-config');
 const notifier = require('node-notifier');
-const pty = require('node-pty');
 const sendStat = require('./send_stat');
 
 const spawn = childProcess.spawn;

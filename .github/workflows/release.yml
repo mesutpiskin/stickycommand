@@ -36,19 +36,11 @@ jobs:
         env:
           CP_RUN_INSTALL_APP_DEPS: '0'
 
-      # Install app/node_modules separately (skips electron-builder's install-app-deps
-      # which downloads Electron headers from the dead atom.io mirror).
+      # Install app production dependencies (pure JS, no native modules)
       - name: Install app production dependencies
         shell: bash
         working-directory: app
-        run: npm install --production
-
-      # Rebuild native modules (node-pty) using @electron/rebuild which fetches
-      # headers from the live electronjs.org mirror instead of atom.io.
-      - name: Rebuild native modules for Electron
-        shell: bash
-        working-directory: app
-        run: npx --yes @electron/rebuild@^3 --version 13.6.9 --dist-url https://electronjs.org/headers --force
+        run: npm ci --omit=dev
 
       - name: Build webpack bundle
         shell: bash
