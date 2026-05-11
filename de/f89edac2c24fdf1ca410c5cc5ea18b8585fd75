@@ -1,0 +1,20 @@
+.github/workflows/release.yml
+  ai_agent 39
+  s_fb6a4ffa16548d::t_4fca3eddd6835e 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "def89edac2c24fdf1ca410c5cc5ea18b8585fd75",
+  "prompts": {},
+  "sessions": {
+    "s_fb6a4ffa16548d": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "ba5e4ac5-50fd-44fe-b1f6-d767dfe7db19",
+        "model": "unknown"
+      },
+      "human_author": "MESUT PISKIN <mesutpiskin@outlook.com>"
+    }
+  }
+}
