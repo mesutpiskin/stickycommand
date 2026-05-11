@@ -3,6 +3,8 @@ name: Build & Release
 on:
   push:
     branches: [master]
+    paths:
+      - 'package.json'
 
 permissions:
   contents: write
@@ -23,6 +25,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Get version from package.json
+        id: version
+        run: echo "VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        shell: bash
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -56,11 +63,13 @@ jobs:
         if: runner.os == 'macOS'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }}
-          name: "StickyCommand Build ${{ github.run_number }}"
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: "StickyCommand v${{ steps.version.outputs.VERSION }}"
           draft: false
-          prerelease: true
-          files: dist/*.dmg
+          prerelease: false
+          files: |
+            dist/StickyCommand-*.dmg
+            dist/StickyCommand-*.dmg.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -68,10 +77,15 @@ jobs:
         if: runner.os == 'Windows'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }}
-          name: "StickyCommand Build ${{ github.run_number }}"
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: "StickyCommand v${{ steps.version.outputs.VERSION }}"
           draft: false
-          prerelease: true
-          files: dist/*.exe
+          prerelease: false
+          files: |
+            dist/StickyCommand-*.exe
+            dist/StickyCommand-*.nsis.7z
+            dist/latest.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
