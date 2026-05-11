@@ -1,0 +1,20 @@
+README.md
+  ai_agent 15-18
+  s_fb6a4ffa16548d::t_893c1a6e8863c6 35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "14169298e24794d8dbb8c245de7766cc0f5c8fb3",
+  "prompts": {},
+  "sessions": {
+    "s_fb6a4ffa16548d": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "ba5e4ac5-50fd-44fe-b1f6-d767dfe7db19",
+        "model": "unknown"
+      },
+      "human_author": "MESUT PISKIN <mesutpiskin@outlook.com>"
+    }
+  }
+}
