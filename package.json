@@ -29,7 +29,7 @@
     },
     "win": {
       "target": "nsis",
-      "iconUrl": "https://github.com/mesutpiskin/stickycommand"
+      "icon": "build/icon.ico"
     }
   },
   "babel": {
