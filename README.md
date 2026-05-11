@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/images/logo.png?raw=true" width="128" alt="StickyCommand Logo">
+  <img src="/images/logo.png?raw=true" width="128" alt="Sticky Command Logo">
 </p>
 
 <h1 align="center">StickyCommand</h1>
