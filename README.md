@@ -12,6 +12,10 @@
   Save recurring commands, organize them into groups, run them with one click, and monitor output in real time.
 </p>
 
+<p align="center">
+  <a href="https://github.com/mesutpiskin/stickycommand/releases"><strong>📥 Download Latest Release</strong></a>
+</p>
+
 ---
 
 # Overview
@@ -28,7 +32,7 @@ Repository:
 Original project:  
 [Command Pad (Original Repository)](https://github.com/supnate/command-pad?utm_source=chatgpt.com)
 
-Screen Shot:
+ScreenShot:
 
   <img src="/images/ss.png?raw=true" width="256" alt="StickyCommand SS">
 
